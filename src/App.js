@@ -31,18 +31,34 @@ export default function App() {
   // const [totalPage, setTotalPage] = useState(0);
   const [state, dispatch] = useReducer(reducerFunction, initialState);
 
-  useEffect(() => {
-    fetch(`https://reqres.in/api/users?page=${state.userData.page}`)
-      .then((res) => res.json())
-      .then((res1) => {
-        // setData((prev) => ({ ...prev, data: res1.data }));
-        // setTotalPage(res1.total_pages);
-        dispatch({
-          type: 'setData',
-          data: res1.data,
-          totalPage: res1.total_pages,
-        });
-      });
+  /**with fetch */
+  // useEffect(() => {
+  //   fetch(`https://reqres.in/api/users?page=${state.userData.page}`)
+  //     .then((res) => res.json())
+  //     .then((res1) => {
+  //       // setData((prev) => ({ ...prev, data: res1.data }));
+  //       // setTotalPage(res1.total_pages);
+  //       dispatch({
+  //         type: 'setData',
+  //         data: res1.data,
+  //         totalPage: res1.total_pages,
+  //       });
+  //     });
+  // }, [state.userData.page]);
+
+  /**with async await */
+  useEffect(async () => {
+    const res = await fetch(
+      `https://reqres.in/api/users?page=${state.userData.page}`
+    );
+    const res1 = await res.json();
+    // setData((prev) => ({ ...prev, data: res1.data }));
+    // setTotalPage(res1.total_pages);
+    dispatch({
+      type: 'setData',
+      data: res1.data,
+      totalPage: res1.total_pages,
+    });
   }, [state.userData.page]);
 
   // const onButtonClick = (state) => {
